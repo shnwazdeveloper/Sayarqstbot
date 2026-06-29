@@ -74,9 +74,7 @@ async def chk(_, cb: CallbackQuery):
         return
     keyboard = InlineKeyboardMarkup(
         [[
-            InlineKeyboardButton("Channel", url="https://t.me/SayaProject"),
-            InlineKeyboardButton("Support", url="https://t.me/SayaProject"),
-            InlineKeyboardButton("Dev", url="https://t.me/sexyafraid")
+     
         ]]
     )
     add_user(cb.from_user.id)
