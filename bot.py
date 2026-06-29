@@ -28,17 +28,18 @@ async def approve(_, m : Message):
                 InlineKeyboardButton("Dev", url="https://t.me/sexyafraid")
             ]]
         )
-        await app.send_message(kk.id, "**Hello {}!\nWelcome To {}\n\n__Powerd By : @SayaProject\nDev By : @sexyafraid __**".format(m.from_user.mention, m.chat.title), reply_markup=keyboard)
+        msg = "**Hello {}!\nWelcome To {}\n\nPowerd By : @SayaProject\nDev By : @sexyafraid**".format(m.from_user.mention, m.chat.title)
+        await app.send_message(kk.id, msg, reply_markup=keyboard)
         add_user(kk.id)
     except errors.PeerIdInvalid as e:
         print("user isn't start bot(means group)")
     except Exception as err:
-        print(str(err))    
- 
+        print(str(err))
+
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Start ━━━━━━━━━━━━━━━━
 
 @app.on_message(filters.private & filters.command("start"))
-async def op(_, m :Message):
+async def op(_, m: Message):
     try:
         await app.get_chat_member(cfg.CHID, m.from_user.id)
     except:
@@ -46,15 +47,15 @@ async def op(_, m :Message):
             invite_link = await app.create_chat_invite_link(int(cfg.CHID))
         except:
             await m.reply("**Make Sure I Am Admin In Your Channel**")
-            return 
+            return
         key = InlineKeyboardMarkup(
             [[
                 InlineKeyboardButton("Join Update Channel", url=invite_link.invite_link),
                 InlineKeyboardButton("Check Again", callback_data="chk")
             ]]
-        ) 
-        await m.reply_text("**⚠️Access Denied!⚠️\n\nPlease Join My Update Channel To Use Me.If You Joined The Channel Then Click On Check Again Button To Confirm.**", reply_markup=key)
-        return 
+        )
+        await m.reply_text("**Access Denied!\n\nPlease Join My Update Channel To Use Me. If You Joined The Channel Then Click On Check Again Button To Confirm.**", reply_markup=key)
+        return
     keyboard = InlineKeyboardMarkup(
         [[
             InlineKeyboardButton("Channel", url="https://t.me/SayaProject"),
@@ -63,18 +64,18 @@ async def op(_, m :Message):
         ]]
     )
     add_user(m.from_user.id)
-    await m.reply_photo("https://files.catbox.moe/m2tuuk.webp", caption="**🦊 Hello {}!\nI'm an auto approve [Admin Join Requests]() Bot.\nI can approve users in Groups/Channels.\n\nAdd me to your chat and promote me to admin with add members permission.\n\n__Powerd By : @SayaProject\nDev By : @sexyafraid __**".format(m.from_user.mention), reply_markup=keyboard)
-    
+    caption = "**Hello {}!\n\nI am an auto approve bot for admin join requests.\n\nI can approve users in Groups/Channels.\n\nAdd me to your chat and promote me to admin with add members permission.\n\nPowerd By : @SayaProject\nDev By : @sexyafraid**".format(m.from_user.mention)
+    await m.reply_photo("https://files.catbox.moe/m2tuuk.webp", caption=caption, reply_markup=keyboard)
 
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ callback ━━━━━━━━━━━━━━━━
 
 @app.on_callback_query(filters.regex("chk"))
-async def chk(_, cb : CallbackQuery):
+async def chk(_, cb: CallbackQuery):
     try:
         await app.get_chat_member(cfg.CHID, cb.from_user.id)
     except:
         await cb.answer("You are not joined my channel first join channel then check again.", show_alert=True)
-        return 
+        return
     keyboard = InlineKeyboardMarkup(
         [[
             InlineKeyboardButton("Channel", url="https://t.me/SayaProject"),
@@ -83,13 +84,13 @@ async def chk(_, cb : CallbackQuery):
         ]]
     )
     add_user(cb.from_user.id)
-    await cb.edit_text(text="**🦊 Hello {}!\nI'm an auto approve [Admin Join Requests]() Bot.\nI can approve users in Groups/Channels.\n\nAdd me to your chat and promote me to admin with add members permission.\n\n__Powerd By : @SayaProject\nDev By : @sexyafraid __**".format(cb.from_user.mention), reply_markup=keyboard)
-    
+    caption = "**Hello {}!\n\nI am an auto approve bot for admin join requests.\n\nI can approve users in Groups/Channels.\n\nAdd me to your chat and promote me to admin with add members permission.\n\nPowerd By : @SayaProject\nDev By : @sexyafraid**".format(cb.from_user.mention)
+    await cb.edit_text(text=caption, reply_markup=keyboard)
 
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ info ━━━━━━━━━━━━━━━━━
 
 @app.on_message(filters.command("users") & filters.user(cfg.SUDO))
-async def dbtool(_, m : Message):
+async def dbtool(_, m: Message):
     xx = all_users()
     x = all_groups()
     tot = int(xx + x)
@@ -102,9 +103,9 @@ async def dbtool(_, m : Message):
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Broadcast ━━━━━━━━━━━━━━
 
 @app.on_message(filters.command("bcast") & filters.user(cfg.SUDO))
-async def bcast(_, m : Message):
+async def bcast(_, m: Message):
     allusers = users
-    lel = await m.reply_text("`⚡️ Processing...`")
+    lel = await m.reply_text("`Processing...`")
     success = 0
     failed = 0
     deactivated = 0
@@ -112,31 +113,30 @@ async def bcast(_, m : Message):
     for usrs in allusers.find():
         try:
             userid = usrs["user_id"]
-            #print(int(userid))
             if m.command[0] == "bcast":
                 await m.reply_to_message.copy(int(userid))
-            success +=1
+            success += 1
         except FloodWait as ex:
             await asyncio.sleep(ex.value)
             if m.command[0] == "bcast":
                 await m.reply_to_message.copy(int(userid))
         except errors.InputUserDeactivated:
-            deactivated +=1
+            deactivated += 1
             remove_user(userid)
         except errors.UserIsBlocked:
-            blocked +=1
+            blocked += 1
         except Exception as e:
             print(e)
-            failed +=1
+            failed += 1
 
-    await lel.edit(f"✅Successfull to `{success}` users.\n❌ Faild to `{failed}` users.\n👾 Found `{blocked}` Blocked users \n👻 Found `{deactivated}` Deactivated users.")
+    await lel.edit(f"Successful to {success} users.\nFailed to {failed} users.\nFound {blocked} Blocked users.\nFound {deactivated} Deactivated users.")
 
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Broadcast Forward ━━━━━━
 
 @app.on_message(filters.command("fcast") & filters.user(cfg.SUDO))
-async def fcast(_, m : Message):
+async def fcast(_, m: Message):
     allusers = users
-    lel = await m.reply_text("`⚡️ Processing...`")
+    lel = await m.reply_text("`Processing...`")
     success = 0
     failed = 0
     deactivated = 0
@@ -144,24 +144,23 @@ async def fcast(_, m : Message):
     for usrs in allusers.find():
         try:
             userid = usrs["user_id"]
-            #print(int(userid))
             if m.command[0] == "fcast":
                 await m.reply_to_message.forward(int(userid))
-            success +=1
+            success += 1
         except FloodWait as ex:
             await asyncio.sleep(ex.value)
             if m.command[0] == "fcast":
                 await m.reply_to_message.forward(int(userid))
         except errors.InputUserDeactivated:
-            deactivated +=1
+            deactivated += 1
             remove_user(userid)
         except errors.UserIsBlocked:
-            blocked +=1
+            blocked += 1
         except Exception as e:
             print(e)
-            failed +=1
+            failed += 1
 
-    await lel.edit(f"✅Successfull to `{success}` users.\n❌ Faild to `{failed}` users.\n👾 Found `{blocked}` Blocked users \n👻 Found `{deactivated}` Deactivated users.")
+    await lel.edit(f"Successful to {success} users.\nFailed to {failed} users.\nFound {blocked} Blocked users.\nFound {deactivated} Deactivated users.")
 
 print("I'm Alive Now!")
 app.run()
