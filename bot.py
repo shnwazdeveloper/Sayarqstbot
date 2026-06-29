@@ -24,8 +24,6 @@ async def approve(_, m : Message):
         await app.approve_chat_join_request(op.id, kk.id)
         keyboard = InlineKeyboardMarkup(
             [[
-                InlineKeyboardButton("SayaProject", url="https://t.me/SayaProject"),
-                InlineKeyboardButton("Dev", url="https://t.me/sexyafraid")
             ]]
         )
         msg = "**Hello {}!\nWelcome To {}\n\nPowerd By : @SayaProject\nDev By : @sexyafraid**".format(m.from_user.mention, m.chat.title)
