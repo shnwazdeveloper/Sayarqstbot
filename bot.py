@@ -22,8 +22,7 @@ async def approve(_, m : Message):
     try:
         add_group(m.chat.id)
         await app.approve_chat_join_request(op.id, kk.id)
-        msg = "**Hello {}!\nWelcome To {}\n\nPowerd By : @SayaProject\nDev By : @sexyafraid**".format(m.from_user.mention, m.chat.title)
-        await app.send_message(kk.id, msg)
+        await app.send_message(kk.id, "**Hello {}!\nWelcome To {}\n\nPowered By : @SayaProject\nDev By : @sexyafraid**".format(m.from_user.mention, m.chat.title))
         add_user(kk.id)
     except errors.PeerIdInvalid as e:
         print("user isn't start bot(means group)")
@@ -50,9 +49,19 @@ async def op(_, m: Message):
         )
         await m.reply_text("**Access Denied!\n\nPlease Join My Update Channel To Use Me. If You Joined The Channel Then Click On Check Again Button To Confirm.**", reply_markup=key)
         return
+    keyboard = InlineKeyboardMarkup(
+        [[
+            InlineKeyboardButton("Channel", url="https://t.me/SayaProject"),
+            InlineKeyboardButton("Support", url="https://t.me/SayaProject"),
+            InlineKeyboardButton("Dev", url="https://t.me/sexyafraid")
+        ]]
+    )
     add_user(m.from_user.id)
-    caption = "**Hello {}!\n\nI am an auto approve bot for admin join requests.\n\nI can approve users in Groups/Channels.\n\nAdd me to your chat and promote me to admin with add members permission.\n\nPowerd By : @SayaProject\nDev By : @sexyafraid**".format(m.from_user.mention)
-    await m.reply_photo("https://files.catbox.moe/m2tuuk.webp", caption=caption)
+    await m.reply_photo(
+        "https://files.catbox.moe/m2tuuk.webp",
+        caption="**Hello {}!\nI am an auto approve [Admin Join Requests]({}) Bot.\nI can approve users in Groups/Channels. Add me to your chat and promote me to admin with add members permission.\n\nPowered By : @SayaProject\nDev By : @sexyafraid**".format(m.from_user.mention, "https://t.me/telegram/153"),
+        reply_markup=keyboard
+    )
 
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ callback ━━━━━━━━━━━━━━━━
 
@@ -63,9 +72,18 @@ async def chk(_, cb: CallbackQuery):
     except:
         await cb.answer("You are not joined my channel first join channel then check again.", show_alert=True)
         return
+    keyboard = InlineKeyboardMarkup(
+        [[
+            InlineKeyboardButton("Channel", url="https://t.me/SayaProject"),
+            InlineKeyboardButton("Support", url="https://t.me/SayaProject"),
+            InlineKeyboardButton("Dev", url="https://t.me/sexyafraid")
+        ]]
+    )
     add_user(cb.from_user.id)
-    caption = "**Hello {}!\n\nI am an auto approve bot for admin join requests.\n\nI can approve users in Groups/Channels.\n\nAdd me to your chat and promote me to admin with add members permission.\n\nPowerd By : @SayaProject\nDev By : @sexyafraid**".format(cb.from_user.mention)
-    await cb.edit_text(text=caption)
+    await cb.edit_text(
+        text="**Hello {}!\nI am an auto approve [Admin Join Requests]({}) Bot.\nI can approve users in Groups/Channels. Add me to your chat and promote me to admin with add members permission.\n\nPowered By : @SayaProject\nDev By : @sexyafraid**".format(cb.from_user.mention, "https://t.me/telegram/153"),
+        reply_markup=keyboard
+    )
 
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ info ━━━━━━━━━━━━━━━━━
 
@@ -75,10 +93,10 @@ async def dbtool(_, m: Message):
     x = all_groups()
     tot = int(xx + x)
     await m.reply_text(text=f"""
-🍀 Chats Stats 🍀
-🙋‍♂️ Users : `{xx}`
-👥 Groups : `{x}`
-🚧 Total users & groups : `{tot}` """)
+Chats Stats
+Users : `{xx}`
+Groups : `{x}`
+Total : `{tot}`""")
 
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Broadcast ━━━━━━━━━━━━━━
 
@@ -108,8 +126,7 @@ async def bcast(_, m: Message):
         except Exception as e:
             print(e)
             failed += 1
-
-    await lel.edit(f"Successful to {success} users.\nFailed to {failed} users.\nFound {blocked} Blocked users.\nFound {deactivated} Deactivated users.")
+    await lel.edit(f"Successful to `{success}` users.\nFailed to `{failed}` users.\nBlocked : `{blocked}`\nDeactivated : `{deactivated}`")
 
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Broadcast Forward ━━━━━━
 
@@ -139,8 +156,7 @@ async def fcast(_, m: Message):
         except Exception as e:
             print(e)
             failed += 1
-
-    await lel.edit(f"Successful to {success} users.\nFailed to {failed} users.\nFound {blocked} Blocked users.\nFound {deactivated} Deactivated users.")
+    await lel.edit(f"Successful to `{success}` users.\nFailed to `{failed}` users.\nBlocked : `{blocked}`\nDeactivated : `{deactivated}`")
 
 print("I'm Alive Now!")
 app.run()
