@@ -22,12 +22,8 @@ async def approve(_, m : Message):
     try:
         add_group(m.chat.id)
         await app.approve_chat_join_request(op.id, kk.id)
-        keyboard = InlineKeyboardMarkup(
-            [[
-            ]]
-        )
         msg = "**Hello {}!\nWelcome To {}\n\nPowerd By : @SayaProject\nDev By : @sexyafraid**".format(m.from_user.mention, m.chat.title)
-        await app.send_message(kk.id, msg, reply_markup=keyboard)
+        await app.send_message(kk.id, msg)
         add_user(kk.id)
     except errors.PeerIdInvalid as e:
         print("user isn't start bot(means group)")
@@ -54,14 +50,9 @@ async def op(_, m: Message):
         )
         await m.reply_text("**Access Denied!\n\nPlease Join My Update Channel To Use Me. If You Joined The Channel Then Click On Check Again Button To Confirm.**", reply_markup=key)
         return
-    keyboard = InlineKeyboardMarkup(
-        [[
-            
-        ]]
-    )
     add_user(m.from_user.id)
     caption = "**Hello {}!\n\nI am an auto approve bot for admin join requests.\n\nI can approve users in Groups/Channels.\n\nAdd me to your chat and promote me to admin with add members permission.\n\nPowerd By : @SayaProject\nDev By : @sexyafraid**".format(m.from_user.mention)
-    await m.reply_photo("https://files.catbox.moe/m2tuuk.webp", caption=caption, reply_markup=keyboard)
+    await m.reply_photo("https://files.catbox.moe/m2tuuk.webp", caption=caption)
 
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ callback ━━━━━━━━━━━━━━━━
 
@@ -72,14 +63,9 @@ async def chk(_, cb: CallbackQuery):
     except:
         await cb.answer("You are not joined my channel first join channel then check again.", show_alert=True)
         return
-    keyboard = InlineKeyboardMarkup(
-        [[
-     
-        ]]
-    )
     add_user(cb.from_user.id)
     caption = "**Hello {}!\n\nI am an auto approve bot for admin join requests.\n\nI can approve users in Groups/Channels.\n\nAdd me to your chat and promote me to admin with add members permission.\n\nPowerd By : @SayaProject\nDev By : @sexyafraid**".format(cb.from_user.mention)
-    await cb.edit_text(text=caption, reply_markup=keyboard)
+    await cb.edit_text(text=caption)
 
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ info ━━━━━━━━━━━━━━━━━
 
